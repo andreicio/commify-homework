@@ -14,6 +14,7 @@ class SalaryBreakdown
         $this->components[] = $component;
     }
 
+    /** @return SalaryComponent[] */
     public function getComponents(): array
     {
         return $this->components;

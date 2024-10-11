@@ -13,7 +13,7 @@ class UkCalculatorIntegrationTest extends KernelTestCase
 {
 
     /** @dataProvider salaries */
-    public function testFromGross($salary, $tax)
+    public function testFromGross(int $salary, int $tax): void
     {
         self::bootKernel();
 
@@ -26,6 +26,7 @@ class UkCalculatorIntegrationTest extends KernelTestCase
         self::assertTrue($result->getComponents()[4]->amount->equals($expectedTax));
     }
 
+    /** @return array<int, array<int, int>> */
     public function salaries(): array
     {
         return [

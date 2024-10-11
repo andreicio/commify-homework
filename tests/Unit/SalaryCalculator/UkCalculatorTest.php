@@ -29,8 +29,11 @@ class UkCalculatorTest extends TestCase
         $this->sut = new UkCalculator($this->repositoryMock, $this->builderMock);
     }
 
-    /** @dataProvider salaries */
-    public function testFromGross($salary, $tax, $taxBrackets): void
+    /**
+     * @dataProvider salaries
+     * @param UkTax[] $taxBrackets
+     */
+    public function testFromGross(int $salary, int $tax, array $taxBrackets): void
     {
         $grossSalary = Money::GBP($salary * 100);
         $expectedTax = Money::GBP($tax * 100);
@@ -46,6 +49,7 @@ class UkCalculatorTest extends TestCase
         self::assertSame($result, $breakdownMock);
     }
 
+    /** @return array<int, array<int, int>> */
     public function salaries(): array
     {
         $taxBrackets = [

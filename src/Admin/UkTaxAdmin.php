@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Entity\UkTax;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
+/** @extends AbstractAdmin<UkTax> */
 final class UkTaxAdmin extends AbstractAdmin
 {
     protected function configureDatagridFilters(DatagridMapper $filter): void
