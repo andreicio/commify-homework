@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        .form-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        label {
+            margin-right: 10px;
+        }
+
+        input[type="number"] {
+            padding: 10px;
+            margin-right: 10px;
+            flex: 1;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .results-container {
+            margin-top: 20px;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Salary Entry Screen</h1>
+    <div class="form-container">
+        <label for="salary">Gross Annual Salary:</label>
+        <input type="number" id="salary" placeholder="Enter salary">
+        <button id="calculate">Calc</button>
+    </div>
+
+    <h2>Results Screen</h2>
+    <div class="results-container" id="results-container">
+        <p>Salary Breakdown: <span></span></p>
+        <table id="salary-breakdown">
+            <tr>
+                <th>Description</th>
+                <th>Amount</th>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script type="application/javascript">
+    document.getElementById('calculate').addEventListener('click', function () {
+        const salary = document.getElementById('salary').value;
+        if (!salary) {
+            alert('Please enter a gross annual salary.');
+            return;
+        }
+
+        // Simulated endpoint (replace with actual endpoint)
+        const endpoint = `/salary/from-gross?currency=GBP&amount=${salary}`;
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', endpoint);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                let data = JSON.parse(xhr.responseText);
+                if (typeof data == 'string') {
+                    data = JSON.parse(data)
+                }
+                displayResults(data.components);
+            } else {
+                alert('Error fetching data. Please try again later.');
+            }
+        };
+        xhr.send();
+    });
+
+    function displayResults(data) {
+        let breakdown = document.getElementById('salary-breakdown');
+
+        let existingData = breakdown.rows.length;
+        for (let i = existingData - 1; i > 0; i--) {
+            breakdown.deleteRow(i);
+        }
+
+        data.forEach(function (component){
+            let row = breakdown.insertRow(-1);
+            let name = row.insertCell(0);
+            let amount = row.insertCell(1);
+
+            name.innerHTML = component.name;
+            amount.innerHTML = component.amount;
+        })
+    }
+</script>
+</body>
+</html>
