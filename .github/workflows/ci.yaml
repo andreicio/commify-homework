@@ -85,6 +85,8 @@ jobs:
         uses: ramsey/composer-install@v3
 
       - name: Configure database
+        env:
+          DATABASE_URL: "postgresql://symfony:symfony@127.0.0.1:5432/symfony_test"
         run: |
           php bin/console doctrine:database:create --if-not-exists -e test
           php bin/console doctrine:schema:update --force -e test
