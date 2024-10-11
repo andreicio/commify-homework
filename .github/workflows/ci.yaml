@@ -84,10 +84,6 @@ jobs:
       - name: Install dependencies
         uses: ramsey/composer-install@v3
 
-      - name: Wait for PostgreSQL to be ready
-        run: |
-          dockerize -wait tcp://localhost:5432 -timeout 1m
-
       - name: Configure database
         run: |
           php bin/console doctrine:database:create --if-not-exists -e test
